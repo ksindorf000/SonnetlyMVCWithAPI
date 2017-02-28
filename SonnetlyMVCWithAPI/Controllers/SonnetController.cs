@@ -20,14 +20,26 @@ namespace SonnetlyMVCWithAPI.Controllers
         // GET: api/Sonnet
         public IQueryable<Sonnet> GetSonnets()
         {
-            return db.Sonnets;
+            var userId = User.Identity.GetUserId();
+            return db.Sonnets
+                .Where(
+                    s => s.Public == true
+                    || s.OwnerId == userId
+                    );
         }
 
         // GET: api/Sonnet/5
         [ResponseType(typeof(Sonnet))]
         public IHttpActionResult GetSonnet(int id)
         {
-            Sonnet sonnet = db.Sonnets.Find(id);
+            var userId = User.Identity.GetUserId();
+            Sonnet sonnet = db.Sonnets
+                .Where(
+                    s => s.Id == id 
+                    && (s.Public == true || s.OwnerId == userId)
+                    )
+                .FirstOrDefault();
+
             if (sonnet == null)
             {
                 return NotFound();
