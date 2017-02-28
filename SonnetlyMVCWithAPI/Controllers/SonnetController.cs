@@ -10,42 +10,41 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using SonnetlyMVCWithAPI.Models;
 using Microsoft.AspNet.Identity;
+using System.Web;
+using SonnetlyMVCWithAPI.Helpers;
 
 namespace SonnetlyMVCWithAPI.Controllers
 {
     public class SonnetController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        internal SonnetRepo repo;
 
+        public SonnetController()
+        {
+            repo = new SonnetRepo(db);
+        }
+        
         // GET: api/Sonnet
         public IQueryable<Sonnet> GetSonnets()
         {
             var userId = User.Identity.GetUserId();
-            return db.Sonnets
-                .Where(
-                    s => s.Public == true
-                    || s.OwnerId == userId
-                    );
+            return repo.GetSonnets(userId);
         }
 
         // GET: api/Sonnet/5
         [ResponseType(typeof(Sonnet))]
-        public IHttpActionResult GetSonnet(int id)
+        public Sonnet GetSonnet(int id)
         {
             var userId = User.Identity.GetUserId();
-            Sonnet sonnet = db.Sonnets
-                .Where(
-                    s => s.Id == id 
-                    && (s.Public == true || s.OwnerId == userId)
-                    )
-                .FirstOrDefault();
+            Sonnet sonnet = repo.GetSingleSonnet(userId, id);
 
             if (sonnet == null)
             {
-                return NotFound();
+                throw new HttpException(404, "Sonnet not found.");
             }
 
-            return Ok(sonnet);
+            return sonnet;
         }
 
         // POST: api/Sonnet
