@@ -48,7 +48,38 @@ namespace SonnetlyMVCWithAPI.Controllers
             return Ok(sonnet);
         }
 
+        // POST: api/Sonnet
+        [ResponseType(typeof(Sonnet))]
+        public IHttpActionResult PostSonnet(Sonnet sonnet)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var userId = User.Identity.GetUserId();
+
+            if (userId == null)
+            {
+                sonnet.OwnerId = null;
+                sonnet.Public = true;
+            }
+            else
+            {
+                sonnet.OwnerId = userId;
+            }
+
+            sonnet.Created = DateTime.Now;
+            sonnet.NewUrl = Helpers.EncryptionHelp.AndGo();
+
+            db.Sonnets.Add(sonnet);
+            db.SaveChanges();
+
+            return CreatedAtRoute("DefaultApi", new { id = sonnet.Id }, sonnet);
+        }
+
         // PUT: api/Sonnet/5
+        [Authorize]
         [ResponseType(typeof(void))]
         public IHttpActionResult PutSonnet(int id, Sonnet sonnet)
         {
@@ -57,7 +88,12 @@ namespace SonnetlyMVCWithAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != sonnet.Id)
+            var userId = User.Identity.GetUserId();
+
+            sonnet.Id = id;           
+            
+            //How to get OwnerId in from Form
+            if (sonnet.OwnerId != userId)
             {
                 return BadRequest();
             }
@@ -83,30 +119,20 @@ namespace SonnetlyMVCWithAPI.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Sonnet
-        [ResponseType(typeof(Sonnet))]
-        public IHttpActionResult PostSonnet(Sonnet sonnet)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            sonnet.OwnerId = User.Identity.GetUserId();
-            sonnet.Created = DateTime.Now;
-            sonnet.NewUrl = Helpers.EncryptionHelp.AndGo();
-
-            db.Sonnets.Add(sonnet);
-            db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = sonnet.Id }, sonnet);
-        }
-
         // DELETE: api/Sonnet/5
+        [Authorize]
         [ResponseType(typeof(Sonnet))]
         public IHttpActionResult DeleteSonnet(int id)
         {
-            Sonnet sonnet = db.Sonnets.Find(id);
+            var userId = User.Identity.GetUserId();
+
+            Sonnet sonnet = db.Sonnets
+                .Where(
+                    s => s.Id == id
+                    && s.OwnerId == userId
+                    )
+                .FirstOrDefault();
+
             if (sonnet == null)
             {
                 return NotFound();

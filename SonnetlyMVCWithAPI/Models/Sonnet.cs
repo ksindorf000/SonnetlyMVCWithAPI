@@ -14,8 +14,6 @@ namespace SonnetlyMVCWithAPI.Models
         public string Title { get; set; }
 
         public string Desc { get; set; }
-
-        [Required]
         public bool Public { get; set; }
 
         [Required]
