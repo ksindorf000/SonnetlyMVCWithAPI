@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -29,6 +30,7 @@ namespace SonnetlyMVCWithAPI.Models
         [Display(Name = "Created by")]
         public string OwnerId { get; set; }
 
+        [ForeignKey("OwnerId")]
         public virtual ApplicationUser Owner { get; set; }
 
         [Display(Name = "Date Created")]

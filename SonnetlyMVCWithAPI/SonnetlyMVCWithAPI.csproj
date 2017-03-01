@@ -223,6 +223,10 @@
     <Compile Include="Migrations\201702281900476_MadeVirtualOwnerProtected.Designer.cs">
       <DependentUpon>201702281900476_MadeVirtualOwnerProtected.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703011529508_AddedForeginKeyAnnotationToVirtualOwner.cs" />
+    <Compile Include="Migrations\201703011529508_AddedForeginKeyAnnotationToVirtualOwner.Designer.cs">
+      <DependentUpon>201703011529508_AddedForeginKeyAnnotationToVirtualOwner.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -317,6 +321,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702281900476_MadeVirtualOwnerProtected.resx">
       <DependentUpon>201702281900476_MadeVirtualOwnerProtected.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703011529508_AddedForeginKeyAnnotationToVirtualOwner.resx">
+      <DependentUpon>201703011529508_AddedForeginKeyAnnotationToVirtualOwner.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -29,7 +29,7 @@ namespace SonnetlyMVCWithAPI.Controllers
         public IQueryable<Sonnet> GetSonnets()
         {
             var userId = User.Identity.GetUserId();
-            return repo.GetSonnets(userId);
+            return repo.GetSonnets(userId).AsQueryable();
         }
 
         // GET: api/Sonnet/5
@@ -41,7 +41,7 @@ namespace SonnetlyMVCWithAPI.Controllers
 
             if (sonnet == null)
             {
-                throw new HttpException(404, "Sonnet not found.");
+                NotFound();
             }
 
             return sonnet;
