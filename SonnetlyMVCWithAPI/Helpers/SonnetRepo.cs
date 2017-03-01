@@ -29,7 +29,7 @@ namespace SonnetlyMVCWithAPI.Helpers
                     s => s.Public == true
                     || s.OwnerId == userId
                     )
-                 .Include(s => s.Owner)
+                 .Include(s => s.Owner)                 
                  .AsEnumerable();
         }
 
