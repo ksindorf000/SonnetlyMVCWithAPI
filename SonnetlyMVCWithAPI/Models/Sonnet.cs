@@ -29,7 +29,7 @@ namespace SonnetlyMVCWithAPI.Models
         [Display(Name = "Created by")]
         public string OwnerId { get; set; }
 
-        protected virtual ApplicationUser Owner { get; set; }
+        public virtual ApplicationUser Owner { get; set; }
 
         [Display(Name = "Date Created")]
         [DisplayFormat(DataFormatString = "dd MMM yyyy")]

@@ -9,7 +9,9 @@ namespace SonnetlyMVCWithAPI.Helpers
 {
     public class SonnetRepo
     {
-        internal ApplicationDbContext db;
+        /* http://devproconnections.com/development/solving-net-scalability-problem */
+
+        private ApplicationDbContext db;
         public SonnetRepo (ApplicationDbContext context)
         {
             db = context;
@@ -20,12 +22,13 @@ namespace SonnetlyMVCWithAPI.Helpers
          *   Gets all sonnets that are public and/or belong to the current user
          **********************************************************************/
         public IQueryable<Sonnet> GetSonnets(string userId)
-        {            
-            return db.Sonnets
-                .Where(
-                    s => s.Public == true
-                    || s.OwnerId == userId
-                    );
+        {
+                return db.Sonnets
+                    .Where(
+                        s => s.Public == true
+                        || s.OwnerId == userId
+                        )
+                     .AsQueryable();
         }
 
         /**********************************************************************

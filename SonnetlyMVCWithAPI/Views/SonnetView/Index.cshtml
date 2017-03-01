@@ -1,7 +1,7 @@
 ﻿@model SonnetlyMVCWithAPI.Models.Sonnet
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "All Sonnets";
 }
 
 <div class="panel panel-default">
@@ -30,8 +30,10 @@
                 }
                 <p>@sonnet.Desc</p>
                 <sub>
-                    Created by
+                    Created 
+                    @*by                    
                     @Html.ActionLink((string)sonnet.Owner.UserName, "Index", "User", new { userName = sonnet.Owner.UserName }, null)
+                     *@
                     on @sonnet.Created.ToString("dd MMM yyyy")
                 </sub>
                 <hr />
