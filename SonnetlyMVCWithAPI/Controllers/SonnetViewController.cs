@@ -22,11 +22,11 @@ namespace SonnetlyMVCWithAPI.Controllers
         }
 
         // Index: all sonnets
-        [Route("s/All")]
         public ActionResult Index()
         {
             var userId = User.Identity.GetUserId();
             ViewBag.sonnetList = repo.GetSonnets(userId);
+
             return View();
         }
 

@@ -30,9 +30,6 @@ namespace SonnetlyMVCWithAPI.Models
         [Display(Name = "Created by")]
         public string OwnerId { get; set; }
 
-        [ForeignKey("OwnerId")]
-        public virtual ApplicationUser Owner { get; set; }
-
         [Display(Name = "Date Created")]
         [DisplayFormat(DataFormatString = "dd MMM yyyy")]
         public DateTime Created { get; set; }

@@ -24,13 +24,23 @@ namespace SonnetlyMVCWithAPI.Helpers
          **********************************************************************/
         public IEnumerable<Sonnet> GetSonnets(string userId)
         {
-            return db.Sonnets
+            IEnumerable<Sonnet> sonnets;
+
+            if (userId != null)
+            {
+                sonnets = db.Sonnets
                 .Where(
                     s => s.Public == true
                     || s.OwnerId == userId
                     )
-                 .Include(s => s.Owner)                 
                  .AsEnumerable();
+            }
+            else
+            {
+                sonnets = db.Sonnets.ToList().OrderByDescending(s => s.Created).AsEnumerable();
+            }
+
+            return sonnets;
         }
 
         /**********************************************************************
@@ -45,7 +55,6 @@ namespace SonnetlyMVCWithAPI.Helpers
                         s => s.Id == sonnetId
                         && (s.Public == true || s.OwnerId == userId)
                         )
-                    .Include(s => s.Owner)
                     .FirstOrDefault();           
         }
 
